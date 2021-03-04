@@ -7,7 +7,16 @@ const _lodash = require('lodash')
 const pathToRegexp = require('path-to-regexp')
 const config = require('../config/coder.config')
 const utils = require('../utils')
-const { log } = require('util')
+
+const schemaFiles = getSchemaFiles(config.schemasDir)
+const schemaInfo = getSchemaInfo(schemaFiles)
+const schemaJSON = parseSchemas(schemaInfo)
+const apiRender = getRender('api.js')
+const mockRender = getRender('mock.js')
+const storeRender = getRender('store.js')
+const mixinRender = getRender('mixin.js')
+const typesRender = getRender('types.js')
+const iconsRender = getRender('icons.js')
 
 
 /**
@@ -485,16 +494,6 @@ function writeIconData () {
   const fileContent = iconsRender({ items: stringify(items), elItems: stringify(elItems) })
   fs.writeFileSync(config.outIconFile, utils.beautifyJs(fileContent), 'utf-8')
 }
-
-const schemaFiles = getSchemaFiles(config.schemasDir)
-const schemaInfo = getSchemaInfo(schemaFiles)
-const schemaJSON = parseSchemas(schemaInfo)
-const apiRender = getRender('api.js')
-const mockRender = getRender('mock.js')
-const storeRender = getRender('store.js')
-const mixinRender = getRender('mixin.js')
-const typesRender = getRender('types.js')
-const iconsRender = getRender('icons.js')
 
 module.exports = (force) => {
   // 强制清空目录
