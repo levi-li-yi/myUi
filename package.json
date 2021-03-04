@@ -22,6 +22,9 @@
     "color": "node bin/my color",
     "fix": "node bin/my fix",
     "coder": "node bin/my coder",
+    "svg": "node bin/my svg",
+    "theme": "node bin/my theme",
+    "ready": "node bin/my ready",
     "lint": "vue-cli-service lint"
   },
   "engines": {

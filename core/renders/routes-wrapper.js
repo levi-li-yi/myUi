@@ -1,6 +1,6 @@
-const _lodash = require('lodash')
+const _ = require('lodash')
 
-module.exports = _lodash.template(`
+module.exports = _.template(`
 /**
  * 该文件由 .my/core/build/routes-builder-plugin.js webpack插件自动生成
  * @param {*} param0 

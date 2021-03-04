@@ -1,7 +1,7 @@
-const _lodash = require('lodash')
+const _ = require('lodash')
 
 
-module.exports = _lodash.template(`
+module.exports = _.template(`
 /**
  * 该文件由 .my/core/build/svg.js 生成
  */

@@ -2,7 +2,7 @@
 const _path = require('path')
 const fs = require('fs')
 const chalk = require('chalk')
-const _lodash = require('lodash')
+const _ = require('lodash')
 const url = require('url')
 const rm = require('rimraf')
 const copy = require('copy-concurrently')
@@ -52,13 +52,13 @@ module.exports = {
    * _.kebabCase('Foo Bar'); => 'foo-bar' 
    */
   kebabCase (str) {
-    return _lodash.kebabCase(str)
+    return _.kebabCase(str)
   },
   camelCase (str) {
-    return _lodash.camelCase(str)
+    return _.camelCase(str)
   },
   upperFirst (str) {
-    return _lodash.upperFirst(str)
+    return _.upperFirst(str)
   },
   /**
    * 格式化JS代码
@@ -157,7 +157,7 @@ module.exports = {
    * 判断两个对象是否相等
    */
   isEqual (object, other) {
-    return _lodash.isEqual(object, other)
+    return _.isEqual(object, other)
   },
   /**
    * 分隔线

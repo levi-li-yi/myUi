@@ -1,4 +1,4 @@
-const _lodash = require('lodash')
+const _ = require('lodash')
 
 /**
  * 渲染函数
@@ -6,9 +6,9 @@ const _lodash = require('lodash')
  * @param {object[]} options.items 路由数组
  * @param {function} options.render 渲染函数
  */
-module.exports = _lodash.template(`
+module.exports = _.template(`
   [
-    <% _lodash.each(items, function(item, index) {%>
+    <% _.each(items, function(item, index) {%>
     <%if(index>0){%>,<%}%>
     {
 

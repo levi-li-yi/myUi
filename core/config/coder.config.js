@@ -1,6 +1,6 @@
 // 代码生成器配置
 
-// const _lodash = require('lodash')
+// const _ = require('lodash')
 const utils = require('../utils')
 const core = require('../index')
 const { merge } = require('lodash')

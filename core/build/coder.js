@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const { logWithSpinner, stopSpinner } = require('@vue/cli-shared-utils')
-const _lodash = require('lodash')
+const _ = require('lodash')
 const pathToRegexp = require('path-to-regexp')
 const config = require('../config/coder.config')
 const utils = require('../utils')
@@ -32,7 +32,7 @@ function getRender (file) {
  * @param {*} name 
  */
 function toSchemaName (name) {
-  return _lodash.camelCase(name.replace('.js', ''))
+  return _.camelCase(name.replace('.js', ''))
 }
 
 /**
@@ -52,7 +52,7 @@ function getSchemaFiles (root, parent) {
 
   // 读取文件
   const files = fs.readdirSync(root)
-  _lodash.each(files, (file) => {
+  _.each(files, (file) => {
     const filePath = path.join(root, file)
     const stat = fs.lstatSync(filePath)
 
@@ -78,7 +78,7 @@ function getSchemaFiles (root, parent) {
  */
 function getSchemaInfo (files) {
   const models = {}
-  _lodash.each(files, (file) => {
+  _.each(files, (file) => {
     models[file.name] = require(file.path)
   })
   return models
@@ -104,7 +104,7 @@ function toUpperCase (name) {
  * @param name
  */
 function toCamelCase (name) {
-  return _lodash.camelCase(name)
+  return _.camelCase(name)
 }
 
 /**
@@ -112,7 +112,7 @@ function toCamelCase (name) {
  * @param name
  */
 function toSnakeCase (name) {
-  return _lodash.snakeCase(name)
+  return _.snakeCase(name)
 }
 
 /**
@@ -120,7 +120,7 @@ function toSnakeCase (name) {
  * @param name
  */
 function toKebabCase (name) {
-  return _lodash.kebabCase(name)
+  return _.kebabCase(name)
 }
 
 function toUpperSnakeCaseName (name) {
@@ -139,7 +139,7 @@ function stringify (json) {
  */
 function parseSchemas (schemas) {
   const result = {}
-  _lodash.each(schemas, (schema, name) => {
+  _.each(schemas, (schema, name) => {
     result[name] = parseModel(schema.model, name, schema.vuex)
   })
   return result
@@ -148,7 +148,7 @@ function parseSchemas (schemas) {
 // 获取请求信息
 function getTitle (name, item, info) {
   const methodComment = config.methodCommentMap[item.methodType] || item.title || '<%=cname%>' + (item.toUpperSnakeCaseName || '')
-  return _lodash.template(methodComment)({ cname: info[name].name || name })
+  return _.template(methodComment)({ cname: info[name].name || name })
 }
 
 /**
@@ -162,8 +162,8 @@ function parseModel (model, name, vuex) {
   let result = []
 
   // 若是数组
-  if (_lodash.isArray(model)) {
-    _lodash.each(model, (item) => {
+  if (_.isArray(model)) {
+    _.each(model, (item) => {
       if (item.disabled !== true && item.path) result = result.concat(parseModel(item, name, vuex))
     })
     return false
@@ -188,7 +188,7 @@ function parseModel (model, name, vuex) {
       // xhr请求类型
       const httpMethod = config.methodTypeMap[model.method || model.name] || 'post'
       // xhr请求选项
-      const options = _lodash.extend({}, { method: httpMethod }, model.options || {})
+      const options = _.extend({}, { method: httpMethod }, model.options || {})
 
       result.push({
         path: model.path,
@@ -212,14 +212,14 @@ function parseModel (model, name, vuex) {
     // 当model.methods为true时
     if (model.methods !== false) {
       const methods = model.methods || config.methods
-      _lodash.each(methods, (method) => {
+      _.each(methods, (method) => {
         // 检测是否开启了批量删除
         if (method === 'batch' && !config.batchEnabled) return
 
         // xhr请求类型
         const httpMethod = config.methodTypeMap[method] | 'get'
         // xhr请求选项
-        const options = _lodash.extend({}, { method: httpMethod }, model.options || {})
+        const options = _.extend({}, { method: httpMethod }, model.options || {})
 
         result.push({
           path: model.path,
@@ -251,12 +251,12 @@ function parseModel (model, name, vuex) {
  * @param {*} info 
  */
 function writeApi (json, info) {
-  _lodash.each(json, (model, name) => {
+  _.each(json, (model, name) => {
     const items = []
     let configKeys = [], transforms = []
 
     //
-    _lodash.each(model, (item) => {
+    _.each(model, (item) => {
       if (item.prefix) configKeys.push(item.prefix)
       if (item.transform) transforms.push(item.transform)
 
@@ -284,8 +284,8 @@ function writeApi (json, info) {
   })
 
   // configKeys、transforms去重
-  configKeys = _lodash.uniq(configKeys)
-  transforms = _lodash.uniq(transforms)
+  configKeys = _.uniq(configKeys)
+  transforms = _.uniq(transforms)
 
   // 写入文件
   writeFile(config.outApiPath, toKebabCase(name), utils.beautifyJs(apiRender({
@@ -300,14 +300,14 @@ function writeApi (json, info) {
 // 生成mock文件
 function writeMock (json) {
   const dbConfig = [], extendsArray = [];
-  _lodash.each(json, (model, name) => {
+  _.each(json, (model, name) => {
     const kebabCaseName = toKebabCase(name)
     dbConfig.push(`import ${name} from '$my/code/mock/${kebabCaseName}'`)
     extendsArray.push(`...${name}`)
     //
     const mocks = []
     let importApiArray = [], templateArray = []
-    _lodash.each(model, (item) => {
+    _.each(model, (item) => {
       if (item.columns || item.template) importApiArray.push(item.upperSnakeCaseName)
 
       if (item.template) templateArray.push(item.template)
@@ -328,8 +328,8 @@ function writeMock (json) {
     })
 
     //去重
-    importApiArray = _lodash.uniq(importApiArray)
-    templateArray = _lodash.uniq(templateArray)
+    importApiArray = _.uniq(importApiArray)
+    templateArray = _.uniq(templateArray)
     writeFile(config.outMockPath, toKebabCase(name), utils.beautifyJs(mockRender({
       importApiArray: importApiArray,
       name: name,
@@ -352,13 +352,13 @@ function writeMock (json) {
 
 // 生成mixin文件
 function writeMixin (json, info) {
-  _lodash.each(json, (model, name) => {
+  _.each(json, (model, name) => {
     if (info[name].vuex) return
     let importTypeArray = [],
       importApiArray = [],
       customStateArray = []
     const items = []
-    _lodash.each(model, (item) => {
+    _.each(model, (item) => {
       importTypeArray.push(item.upperSnakeCaseName)
       importApiArray.push(item.camelCaseName)
       if (item.state) {
@@ -383,9 +383,9 @@ function writeMixin (json, info) {
         cache: item.cache
       })
     })
-    importTypeArray = _lodash.uniq(importTypeArray)
-    importApiArray = _lodash.uniq(importApiArray)
-    customStateArray = _lodash.uniq(customStateArray)
+    importTypeArray = _.uniq(importTypeArray)
+    importApiArray = _.uniq(importApiArray)
+    customStateArray = _.uniq(customStateArray)
     writeFile(config.outMixinPath, toKebabCase(name), utils.beautifyJs(mixinRender({
       name: name,
       cname: info[name].name || name,
@@ -407,7 +407,7 @@ function writeMixin (json, info) {
 function writeStore (json, info) {
   const types = {}
   const modules = [], extendsArray = []
-  _lodash.each(json, function (model, name) {
+  _.each(json, function (model, name) {
     if (!info[name].vuex) {
       return
     }
@@ -419,7 +419,7 @@ function writeStore (json, info) {
       customStateArray = []
     const items = []
     types[name] = []
-    _lodash.each(model, function (item) {
+    _.each(model, function (item) {
       types[name].push({
         name: item.upperSnakeCaseName,
         title: getTitle(name, item, info)
@@ -447,9 +447,9 @@ function writeStore (json, info) {
         cache: item.cache
       })
     })
-    importTypeArray = _lodash.uniq(importTypeArray)
-    importApiArray = _lodash.uniq(importApiArray)
-    customStateArray = _lodash.uniq(customStateArray)
+    importTypeArray = _.uniq(importTypeArray)
+    importApiArray = _.uniq(importApiArray)
+    customStateArray = _.uniq(customStateArray)
     writeFile(config.outStorePath, toKebabCase(name), utils.beautifyJs(storeRender({
       name: name,
       cname: info[name].name || name,
