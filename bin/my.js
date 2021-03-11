@@ -19,18 +19,18 @@ const commandArray = [
   'coder',
   'fix',
   'color',
-  // 'jsdoc',
-  // 'svg',
-  // 'demo',
-  // 'theme',
-  // 'ready',
-  // 'route',
-  // 'bridge',
-  // 'start',
-  // 'serve',
-  // 'preview',
-  // 'app',
-  // 'page'
+  'jsdoc',
+  'svg',
+  'demo',
+  'theme',
+  'ready',
+  'route',
+  'bridge',
+  'start',
+  'serve',
+  'preview',
+  'app',
+  'page'
 ]
 
 const commandMap = Object.create(null)

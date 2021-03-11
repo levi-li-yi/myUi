@@ -29,10 +29,17 @@
     "preview": "node bin/my preview",
     "demo": "node bin/my demo",
     "jsdoc": "node bin/my jsdoc",
+    "start": "node bin/my start",
+    "bridge": "node bin/my bridge",
+    "app": " node bin/my app",
+    "page": "node bin/my page",
     "lint": "vue-cli-service lint"
   },
   "engines": {
     "node": ">=10"
+  },
+  "bin": {
+    "my": "bin/my.js"
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
@@ -70,8 +77,42 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "indent": 0,
+      "vue/script-indent": 0,
+      "vue/require-prop-type-constructor": 0,
+      "vue/no-use-v-if-with-v-for": 0,
+      "no-console": 0,
+      "no-trailing-spaces": 0,
+      "no-multiple-empty-lines": 0,
+      "no-extra-boolean-cast": 0,
+      "valid-jsdoc": 0,
+      "one-var": 0,
+      "semi": 0,
+      "no-new": 0,
+      "no-extra-semi": 0,
+      "keyword-spacing": 0,
+      "space-before-function-paren": 0,
+      "arrow-parens": 0,
+      "generator-star-spacing": 0,
+      "no-mixed-operators": 0,
+      "padded-blocks": 0,
+      "eol-last": 0,
+      "object-curly-spacing": 0,
+      "no-callback-literal": 0,
+      "multiline-ternary": 0
+    }
   },
+  "eslintIgnore": [
+    "**/icons/iconfont.js",
+    "**/templates/jsdoc/**/*.js",
+    "**/charts/themes/**/*.js",
+    "ui/lib/components/my-tag-canvas/src/tagcanvas.js"
+  ],
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest"
+  },
+  "typings": "types/index.d.ts",
   "browserslist": [
     "> 1%",
     "last 2 versions",
