@@ -5,6 +5,13 @@ class HtmlInjectConfigPlugin {
   }
 
   apply (compiler) {
-    compiler.hooks.compilation.tap()
+    compiler.hooks.compilation.tap('HtmlInjectConfigPlugin', compilation => {
+      compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('HtmlInjectConfig', (data, callback) => {
+        data.assets.js = this.files.concat(data.assets.js)
+        callback(null, data)
+      })
+    })
   }
 }
+
+module.exports = HtmlInjectConfigPlugin
