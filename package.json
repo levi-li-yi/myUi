@@ -26,6 +26,7 @@
     "theme": "node bin/my theme",
     "ready": "node bin/my ready",
     "route": "node bin/my route",
+    "dev": "npm run ready && concurrently \"npm run serve -- --open\" \"npm run route watch\"",
     "preview": "node bin/my preview",
     "demo": "node bin/my demo",
     "jsdoc": "node bin/my jsdoc",
@@ -44,7 +45,7 @@
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "body-parser": "^1.19.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.9.1",
     "crypto-js": "^4.0.0",
     "gray-matter": "^4.0.2",
     "lodash": "^4.17.21",
